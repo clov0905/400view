@@ -142,14 +142,14 @@ handleCurrentChange(newPage){
 this.queryInfo.pagenum = newPage;
 this.getGoodsList();
 },
-// 修改
+// 修改(回显)
 handleEdit(index, row) {
 				this.$data.title = "修改商品"
 				this.dialogFormVisible = true
         this.form.goodsName = row.goodsName
 				this.form.goodsPrice = row.goodsPrice
 				this.form.goodsDesc = row.goodsDesc
-				this.$data.form.flag = row.id
+				this.$data.form.id = row.id
 				console.log(index, row);
 			},
 // 删除
@@ -210,27 +210,27 @@ async handleDelete(index, row) {
       		this.dialogFormVisible = false
       		console.log(this.$data.form.name)
       	}else{
-      
+          //修改
       		const that = this
       		this.$axios({
-      		    url: 'admin/updUser01',
+      		    url: 'goodsMange/updGoods',
       		  	method: 'post',
       		  	headers: { "Content-Type": "multipart/form-data" },
       		    data:{
-                 uAcc:this.$data.form.UAcc,
-                 updId:this.$data.form.flag,
-      		       uName:this.$data.form.UName,
-      		       // idNumber:this.$data.form.idNumber,
-      		       address:this.$data.form.address
+                 id:this.$data.form.id,
+                 goodsName:this.$data.form.goodsName,
+                 // goodsImg:this.$data.form.goodsImg,
+      		       goodsPrice:this.$data.form.goodsPrice,
+      		       goodsDesc:this.$data.form.goodsDesc
       		    }//传值
       		  }).then(function(response) {
       		  	console.log('数据接收');
       		  	console.log(response.data);
-      		  	if( response.data === 1 ){
+      		  	if( response.data === true ){
       		  	  that.$message({ message: "修改成功", type: "success" });
                 //刷新
                 that.getUserList();
-      		  	}else if( response.data === 0){
+      		  	}else if( response.data === false){
       		  	  that.$message.error("修改失败");
       		  	}
       		});
@@ -250,9 +250,6 @@ async handleDelete(index, row) {
       				return '';
       			},
     }
-
-
-
 }
 </script>
 
