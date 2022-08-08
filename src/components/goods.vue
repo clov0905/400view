@@ -111,11 +111,9 @@ return{
   goodslist:[],
   // 总数据条数
   total:0,
-<<<<<<< HEAD
   pagesize:6,
   currentPage:1,
   search: '',
-=======
   // 添加修改页面标题
   title:'修改',
   form: {
@@ -130,7 +128,6 @@ return{
   // 添加修改页面显示
   dialogFormVisible: false,
   formLabelWidth: '120px'
->>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
 }
 },
 // created(){
@@ -238,38 +235,11 @@ async handleDelete(index, row) {
 					});
 				});
 			},
-<<<<<<< HEAD
 goAddpage(){
 this.$router.push('/goods/add');
 },
-tableRowClassName({
-				row,
-				rowIndex
-			}) {
-				if (rowIndex % 2 == 0) {
-					return 'warning-row';
-				} else {
-					return '';
-				}
-				return '';
-			},
-},
- mounted(){
-        console.log("挂载后：数据已挂载到模板中。。。mounted")
-        this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
-      },
-=======
-      // 商品添加
-      addGoods(val){
-      	this.$data.title = "添加商品"
-      	this.dialogFormVisible = true
-        this.$data.form.goodsName = ""
-      	this.$data.form.goodsPrice = ""
-      	this.$data.form.goodsDesc = ""
-      	this.$data.form.flag = val
-      },
-      // 修改/添加 按钮
-      addPage(){
+// 修改/添加 按钮
+      addOrUpd(){
       	if(this.$data.form.flag == '-1'){
           const that = this
           this.$axios({
@@ -297,6 +267,7 @@ tableRowClassName({
       		this.dialogFormVisible = false
       		console.log(this.$data.form.name)
       	}else{
+          console.log("")
           //修改
       		const that = this
       		this.$axios({
@@ -325,20 +296,36 @@ tableRowClassName({
       		this.dialogFormVisible = false
       	}
       },
-      tableRowClassName({
-      				row,
-      				rowIndex
-      			}) {
-      				if (rowIndex % 2 == 0) {
-      					return 'warning-row';
-      				} else {
-      					return '';
-      				}
-      				return '';
-      			},
+tableRowClassName({
+				row,
+				rowIndex
+			}) {
+				if (rowIndex % 2 == 0) {
+					return 'warning-row';
+				} else {
+					return '';
+				}
+				return '';
+			},
+},
+
+ mounted(){
+        console.log("挂载后：数据已挂载到模板中。。。mounted")
+        this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
+      },
+      // 商品添加
+      addGoods(val){
+      	this.$data.title = "添加商品"
+      	this.dialogFormVisible = true
+        this.$data.form.goodsName = ""
+      	this.$data.form.goodsPrice = ""
+      	this.$data.form.goodsDesc = ""
+      	this.$data.form.flag = val
+      },
+
+
     }
->>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
-}
+
 </script>
 
 <style lang="less" scoped>
