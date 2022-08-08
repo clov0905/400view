@@ -17,7 +17,7 @@
       </el-input>
     </el-col>
     <el-col :span="4">
-      <el-button type="primary" @click="goAddpage">添加商品</el-button>
+      <el-button type="primary" @click="addGoods(-1)">添加商品</el-button>
     </el-col>
   </el-row>
 
@@ -71,6 +71,27 @@
    </el-pagination>
 
 </el-card>
+
+<!-- <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button> -->
+
+		<el-dialog :title="title" :visible.sync="dialogFormVisible">
+			<el-form :model="form">
+        <el-form-item label="商品名称" :label-width="formLabelWidth">
+        	<el-input v-model="form.goodsName" autocomplete="off"></el-input>
+        </el-form-item>
+				<el-form-item label="商品价格" :label-width="formLabelWidth">
+					<el-input v-model="form.goodsPrice" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="商品描述" :label-width="formLabelWidth">
+					<el-input v-model="form.goodsDesc" autocomplete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="addOrUpd()">确 定</el-button>
+			</div>
+		</el-dialog>
+
 </div>
 </template>
 
@@ -90,9 +111,26 @@ return{
   goodslist:[],
   // 总数据条数
   total:0,
+<<<<<<< HEAD
   pagesize:6,
   currentPage:1,
   search: '',
+=======
+  // 添加修改页面标题
+  title:'修改',
+  form: {
+            id:'',
+      			goodsName: '',
+            goodsPrice: '',
+      			goodsDesc: '',
+      			delivery: false,
+      			resource: '',
+      			flag:''
+      		},
+  // 添加修改页面显示
+  dialogFormVisible: false,
+  formLabelWidth: '120px'
+>>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
 }
 },
 // created(){
@@ -157,6 +195,16 @@ handleCurrentChange(newPage){
 this.queryInfo.pagenum = newPage;
 this.getGoodsList();
 },
+// 修改(回显)
+handleEdit(index, row) {
+				this.$data.title = "修改商品"
+				this.dialogFormVisible = true
+        this.form.goodsName = row.goodsName
+				this.form.goodsPrice = row.goodsPrice
+				this.form.goodsDesc = row.goodsDesc
+				this.$data.form.id = row.id
+				console.log(index, row);
+			},
 // 删除
 async handleDelete(index, row) {
 				console.log(index, row);
@@ -165,10 +213,23 @@ async handleDelete(index, row) {
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.$delete(this.$data.goodslist, index)
-					this.$message({
-						type: 'success',
-						message: '删除成功!'
+					this.$axios({
+					    url: 'goodsMange/delGoods',
+					  	method: 'post',
+					  	headers: { "Content-Type": "multipart/form-data" },
+					    data:{
+                 index:row.id
+					    }//传值
+					  }).then(function(response) {
+					  	console.log('数据接收');
+					  	console.log(response.data);
+					  	if(response.data === 1 ){
+					  	  that.$message({ message: "删除成功", type: "success" });
+					      //刷新
+					      that.getGoodsList();
+					  	}else if(response.data === 0){
+					  	  that.$message.error("删除失败");
+					  	}
 					});
 				}).catch(() => {
 					this.$message({
@@ -177,6 +238,7 @@ async handleDelete(index, row) {
 					});
 				});
 			},
+<<<<<<< HEAD
 goAddpage(){
 this.$router.push('/goods/add');
 },
@@ -196,6 +258,86 @@ tableRowClassName({
         console.log("挂载后：数据已挂载到模板中。。。mounted")
         this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
       },
+=======
+      // 商品添加
+      addGoods(val){
+      	this.$data.title = "添加商品"
+      	this.dialogFormVisible = true
+        this.$data.form.goodsName = ""
+      	this.$data.form.goodsPrice = ""
+      	this.$data.form.goodsDesc = ""
+      	this.$data.form.flag = val
+      },
+      // 修改/添加 按钮
+      addPage(){
+      	if(this.$data.form.flag == '-1'){
+          const that = this
+          this.$axios({
+              url: 'admin/addUser',
+            	method: 'post',
+            	headers: { "Content-Type": "multipart/form-data" },
+              data:{
+                 uAcc:this.$data.form.UAcc,
+                 uName:this.$data.form.UName,
+                 idNumber:this.$data.form.idNumber,
+                 address:this.$data.form.address
+              }//传值
+            }).then(function(response) {
+            	console.log('数据接收');
+            	console.log(response.data);
+            	if(response.data === 1 ){
+            	  that.$message({ message: "添加成功", type: "success" });
+                //刷新
+                that.getUserList();
+            	}else if(response.data === 0){
+            	  that.$message.error("添加失败");
+            	}
+          });
+          // this.reload()
+      		this.dialogFormVisible = false
+      		console.log(this.$data.form.name)
+      	}else{
+          //修改
+      		const that = this
+      		this.$axios({
+      		    url: 'goodsMange/updGoods',
+      		  	method: 'post',
+      		  	headers: { "Content-Type": "multipart/form-data" },
+      		    data:{
+                 id:this.$data.form.id,
+                 goodsName:this.$data.form.goodsName,
+                 // goodsImg:this.$data.form.goodsImg,
+      		       goodsPrice:this.$data.form.goodsPrice,
+      		       goodsDesc:this.$data.form.goodsDesc
+      		    }//传值
+      		  }).then(function(response) {
+      		  	console.log('数据接收');
+      		  	console.log(response.data);
+      		  	if( response.data === true ){
+      		  	  that.$message({ message: "修改成功", type: "success" });
+                //刷新
+                that.getUserList();
+      		  	}else if( response.data === false){
+      		  	  that.$message.error("修改失败");
+      		  	}
+      		});
+      		// this.reload()
+      		this.dialogFormVisible = false
+      	}
+      },
+      tableRowClassName({
+      				row,
+      				rowIndex
+      			}) {
+      				if (rowIndex % 2 == 0) {
+      					return 'warning-row';
+      				} else {
+      					return '';
+      				}
+      				return '';
+      			},
+    }
+>>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
 }
 </script>
 
