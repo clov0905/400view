@@ -111,11 +111,9 @@ return{
   goodslist:[],
   // 总数据条数
   total:0,
-<<<<<<< HEAD
   pagesize:6,
   currentPage:1,
   search: '',
-=======
   // 添加修改页面标题
   title:'修改',
   form: {
@@ -130,7 +128,6 @@ return{
   // 添加修改页面显示
   dialogFormVisible: false,
   formLabelWidth: '120px'
->>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
 }
 },
 // created(){
@@ -213,6 +210,7 @@ async handleDelete(index, row) {
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
+          const that = this
 					this.$axios({
 					    url: 'goodsMange/delGoods',
 					  	method: 'post',
@@ -226,7 +224,7 @@ async handleDelete(index, row) {
 					  	if(response.data === 1 ){
 					  	  that.$message({ message: "删除成功", type: "success" });
 					      //刷新
-					      that.getGoodsList();
+					      that.findGoodsByName();
 					  	}else if(response.data === 0){
 					  	  that.$message.error("删除失败");
 					  	}
@@ -238,7 +236,6 @@ async handleDelete(index, row) {
 					});
 				});
 			},
-<<<<<<< HEAD
 goAddpage(){
 this.$router.push('/goods/add');
 },
@@ -258,7 +255,6 @@ tableRowClassName({
         console.log("挂载后：数据已挂载到模板中。。。mounted")
         this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
       },
-=======
       // 商品添加
       addGoods(val){
       	this.$data.title = "添加商品"
@@ -337,8 +333,7 @@ tableRowClassName({
       				return '';
       			},
     }
->>>>>>> a8930037b0a59ff141c50bbb04982a231540f944
-}
+
 </script>
 
 <style lang="less" scoped>
