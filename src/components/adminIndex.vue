@@ -28,7 +28,9 @@
           </el-menu-item>
 		          </el-menu-item-group>
 		          <el-menu-item-group title="分组2">
-		            <el-menu-item index="1-3">选项3</el-menu-item>
+		            <el-menu-item index="1-3">
+                  <router-link to="/goods"> 商品管理</router-link>
+                </el-menu-item>
 		          </el-menu-item-group>
 		          <el-submenu index="1-4">
 		            <template slot="title">选项4</template>

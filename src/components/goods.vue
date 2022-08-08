@@ -8,7 +8,7 @@
 </el-breadcrumb>
 
     <!-- 卡片视图区域 -->
-<el-card>       
+<el-card>
      <!-- 搜索与添加区域 -->
   <el-row :gutter="20">
     <el-col :span="8">
@@ -22,17 +22,37 @@
   </el-row>
 
   <!-- table表格区域 -->
-  <el-table :data="goodslist" border stripe>
-    <el-table-column type="index"></el-table-column>
-    <el-table-column label="商品名称" prop="goodsName"></el-table-column>
-    <el-table-column label="商品价格(元)" prop="goodsPrice" width="90px"></el-table-column>
-    <el-table-column label="商品图片" prop="goodsImg" width="100px"></el-table-column>
-    <el-table-column label="商品描述" prop="goodsDesc" width="140px">
+  <el-table :data="goodslist" border stripe :row-class-name="tableRowClassName">
+    <el-table-column label="ID" width="180">
+    	<template slot-scope="scope">
+    	<!-- 	<i class="el-icon-time"></i> -->
+    		<span style="margin-left: 10px">{{ scope.row.id }}</span>
+    	</template>
     </el-table-column>
-    <el-table-column label="操作" width="130px">
+    <el-table-column label="商品名称" width="180" >
       <template slot-scope="scope">
-        <el-button type="primary" size="mini" icon="el-icon-edit"></el-button>
-        <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeById(scope.row.goods_id)"></el-button>
+      <!-- 	<i class="el-icon-time"></i> -->
+      	<span style="margin-left: 10px">{{ scope.row.goodsName }}</span>
+      </template>
+
+    </el-table-column>
+    <el-table-column label="商品价格(元)" width="180">
+      <template slot-scope="scope">
+      <!-- 	<i class="el-icon-time"></i> -->
+      	<span style="margin-left: 10px">{{ scope.row.goodsPrice }}</span>
+      </template>
+    </el-table-column>
+    <!-- <el-table-column label="商品图片" prop="goodsImg" width="100px"></el-table-column> -->
+    <el-table-column label="商品描述" width="180">
+      <template slot-scope="scope">
+      <!-- 	<i class="el-icon-time"></i> -->
+      	<span style="margin-left: 10px">{{ scope.row.goodsDesc }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作" width="180">
+      <template slot-scope="scope">
+        <el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit">编辑</el-button>
+        <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -87,25 +107,40 @@ handleCurrentChange(newPage){
 this.queryInfo.pagenum = newPage;
 this.getGoodsList();
 },
-async removeById(id){
-const confirmResult = await this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }).catch(err => err)
-    if(confirmResult !== 'confirm'){
-      return this.$message.Info('已取消删除！');
-    }
-    const {data:res} = await this.$http.delete(`goods/${id}`);
-    if(res.meta.status !== 200){
-      return this.$message.error('删除商品失败！');
-      }
-      this.$message.success('删除成功！');
-      this.getGoodsList();
-},
+// 删除
+async handleDelete(index, row) {
+				console.log(index, row);
+				this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.$delete(this.$data.goodslist, index)
+					this.$message({
+						type: 'success',
+						message: '删除成功!'
+					});
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消删除'
+					});
+				});
+			},
 goAddpage(){
 this.$router.push('/goods/add');
-}
+},
+tableRowClassName({
+				row,
+				rowIndex
+			}) {
+				if (rowIndex % 2 == 0) {
+					return 'warning-row';
+				} else {
+					return '';
+				}
+				return '';
+			},
 }
 }
 </script>
