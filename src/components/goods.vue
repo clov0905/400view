@@ -239,6 +239,7 @@ async handleDelete(index, row) {
 goAddpage(){
 this.$router.push('/goods/add');
 },
+<<<<<<< HEAD
 tableRowClassName({
 				row,
 				rowIndex
@@ -266,6 +267,10 @@ tableRowClassName({
       },
       // 修改/添加 按钮
       addPage(){
+=======
+// 修改/添加 按钮
+      addOrUpd(){
+>>>>>>> 3a3bce3174d4269f81957a7ed75089831f74c5b0
       	if(this.$data.form.flag == '-1'){
           const that = this
           this.$axios({
@@ -293,6 +298,7 @@ tableRowClassName({
       		this.dialogFormVisible = false
       		console.log(this.$data.form.name)
       	}else{
+          console.log("")
           //修改
       		const that = this
       		this.$axios({
@@ -321,17 +327,34 @@ tableRowClassName({
       		this.dialogFormVisible = false
       	}
       },
-      tableRowClassName({
-      				row,
-      				rowIndex
-      			}) {
-      				if (rowIndex % 2 == 0) {
-      					return 'warning-row';
-      				} else {
-      					return '';
-      				}
-      				return '';
-      			},
+tableRowClassName({
+				row,
+				rowIndex
+			}) {
+				if (rowIndex % 2 == 0) {
+					return 'warning-row';
+				} else {
+					return '';
+				}
+				return '';
+			},
+},
+
+ mounted(){
+        console.log("挂载后：数据已挂载到模板中。。。mounted")
+        this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
+      },
+      // 商品添加
+      addGoods(val){
+      	this.$data.title = "添加商品"
+      	this.dialogFormVisible = true
+        this.$data.form.goodsName = ""
+      	this.$data.form.goodsPrice = ""
+      	this.$data.form.goodsDesc = ""
+      	this.$data.form.flag = val
+      },
+
+
     }
 
 </script>
