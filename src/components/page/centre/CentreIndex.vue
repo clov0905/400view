@@ -67,7 +67,7 @@
                 </el-image>
               </el-carousel-item>
             </el-carousel>
-			
+
 			<!--  -->
             <div v-if="hover" @mouseenter="enter()" @mouseleave="leave" style="height: 100%;box-shadow: 0 50px 5px 0 #eee;position: absolute;background: #FFFFFF;z-index: 9999;width: 100%;padding: 20px 20px 0 20px;border: 1px solid #e0e0e0;overflow: scroll;box-sizing: border-box;">
               <div v-for="(item,index) in prodducts" style="display: inline-block;margin: 0 20px 30px 0;">
@@ -97,7 +97,7 @@
 
     <div style="background-color: #EEEEEE;">
       <div style="width: 60%;margin: 0 auto;">
-       
+
 
         <div style="height: 50px;line-height: 50px;margin-top: 50px;color: gray;display: flex;">
           <div style="font-size: 25px;">手机</div>
@@ -108,8 +108,8 @@
             <img src="../../../../public/img/e1.png" style="width: 100%;height: 642px;"/>
           </div>
           <div style="flex: 1;">
-            <div style="height: 310px;display: flex;">
-              <div v-for="i in 4" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
+            <div style="height: 310px;display: flex;" >
+              <div v-for="goodsList in goodsList" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
                 <div style="text-align: center;">
                   <span style="background-color: #1f84f0;color: #FFFFFF;padding:0 20px;">秒杀</span>
                 </div>
@@ -117,18 +117,18 @@
                   <img src="../../../../public/img/c1.jpg" style="width: 100%"/>
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;">
-                  红米6 Pro 4GB+32GB
+                  {{goodsList.goodsName}}
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;color: gray;">
-                  高颜值大电量/异形全面屏/后置
+                  {{goodsList.goodsDesc}}
                 </div>
                 <div style="text-align: center;line-height: 40px;">
-                  <span style="color: red;">￥900元</span>
-                  <span style="color: gray;text-decoration: line-through;">￥1290元</span>
+                  <span style="color: red;">￥{{goodsList.goodsPrice-500}}元</span>
+                  <span style="color: gray;text-decoration: line-through;">￥{{goodsList.goodsPrice}}元</span>
                 </div>
               </div>
             </div>
-            <div style="height: 310px;display: flex;margin-top: 20px;">
+           <!-- <div style="height: 310px;display: flex;margin-top: 20px;">
               <div v-for="i in 4" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
                 <div style="text-align: center;">
                   <span style="background-color: #1f84f0;color: #FFFFFF;padding:0 20px;">秒杀</span>
@@ -147,7 +147,7 @@
                   <span style="color: gray;text-decoration: line-through;">￥1290元</span>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-	
+
   export default {
       data() {
         return {
@@ -175,14 +175,36 @@
               ],
               prodducts2: [
                 {img:Jpg2,title:'RedmiBook Pro14 2022'},
-               
+
               ],
+              goodsList:{
+                id:'',
+                goodsName: '',
+                goodsImg: '',
+                goodsPrice: '',
+                goodsDesc:'',
+
+              }
 
         };
       },
       mounted() {
+        this.selGoodsList();
       },
       methods: {
+        async selGoodsList() {
+          const that = this
+            this.$axios.post('goodsMange/selGoodsList')
+            .then(response =>{
+                 console.log('数据接收');
+              // debugger
+                	console.log(response.data.goodsList);
+
+                  that.goodsList = response.data.goodsList;
+                   console.log(that.goodsList+"------------137");
+            })
+
+          },
         productDetail(){
           this.$router.push({'path':'/login'});
         },
