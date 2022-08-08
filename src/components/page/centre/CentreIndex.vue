@@ -109,7 +109,7 @@
           </div>
           <div style="flex: 1;">
             <div style="height: 310px;display: flex;" >
-              <div v-for="goodsList in goodsList" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
+              <div v-for="goodsList in goodsList.slice(0, 4)" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
                 <div style="text-align: center;">
                   <span style="background-color: #1f84f0;color: #FFFFFF;padding:0 20px;">秒杀</span>
                 </div>
@@ -128,8 +128,8 @@
                 </div>
               </div>
             </div>
-           <!-- <div style="height: 310px;display: flex;margin-top: 20px;">
-              <div v-for="i in 4" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
+           <div style="height: 310px;display: flex;margin-top: 20px;">
+              <div v-for="goodsList in goodsList.slice(4, 8)" class="product" style="width: calc(25% - 16px);border-top: 1px solid #1f84f0;background-color: #fafafa;margin-left: 20px;">
                 <div style="text-align: center;">
                   <span style="background-color: #1f84f0;color: #FFFFFF;padding:0 20px;">秒杀</span>
                 </div>
@@ -137,17 +137,17 @@
                   <img src="../../../../public/img/c1.jpg" style="width: 100%"/>
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;">
-                  红米777 Pro 4GB+32GB
+                  {{goodsList.goodsName}}
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;color: gray;">
-                  高颜值大电量/异形全面屏/后置
+                  {{goodsList.goodsDesc}}
                 </div>
                 <div style="text-align: center;line-height: 40px;">
-                  <span style="color: red;">￥900元</span>
-                  <span style="color: gray;text-decoration: line-through;">￥1290元</span>
+                  <span style="color: red;">￥{{goodsList.goodsPrice-500}}元</span>
+                  <span style="color: gray;text-decoration: line-through;">￥{{goodsList.goodsPrice}}元</span>
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
 
