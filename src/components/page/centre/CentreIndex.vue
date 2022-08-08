@@ -137,7 +137,7 @@
                   <img src="../../../../public/img/c1.jpg" style="width: 100%"/>
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;">
-                  红米6 Pro 4GB+32GB
+                  红米777 Pro 4GB+32GB
                 </div>
                 <div style="text-align: center;text-overflow: ellipsis;line-height: 25px;color: gray;">
                   高颜值大电量/异形全面屏/后置
