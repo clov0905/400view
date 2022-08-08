@@ -160,10 +160,23 @@ async handleDelete(index, row) {
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.$delete(this.$data.goodslist, index)
-					this.$message({
-						type: 'success',
-						message: '删除成功!'
+					this.$axios({
+					    url: 'goodsMange/delGoods',
+					  	method: 'post',
+					  	headers: { "Content-Type": "multipart/form-data" },
+					    data:{
+                 index:row.id
+					    }//传值
+					  }).then(function(response) {
+					  	console.log('数据接收');
+					  	console.log(response.data);
+					  	if(response.data === 1 ){
+					  	  that.$message({ message: "删除成功", type: "success" });
+					      //刷新
+					      that.getGoodsList();
+					  	}else if(response.data === 0){
+					  	  that.$message.error("删除失败");
+					  	}
 					});
 				}).catch(() => {
 					this.$message({
