@@ -13,6 +13,7 @@ import JDIndex from '../components/page/index/index.vue'
 import AdminIndex from '../components/adminIndex.vue'
 import UserList from '../components/userList.vue'
 import Power from '../components/power.vue'
+import Goods from '../components/goods.vue'
 // import userListAddOrUpd from '../components/userListAddOrUpd.vue'
 
 const paths = [
@@ -27,7 +28,8 @@ const paths = [
 				// {path:'/userList/:id',component:UserList,props:true},
         {path:'/userList',component:UserList},
 				{path:'/login01',component:AdminLogin},
-        {path:'/power01',component:Power}
+        {path:'/power01',component:Power},
+		{path:'/goods',component:Goods}
 				],
 		},
 		// {path:'/addOrUpdate',component:userListAddOrUpd},
