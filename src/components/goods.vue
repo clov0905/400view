@@ -92,6 +92,26 @@
 			</div>
 		</el-dialog>
 
+
+
+<!-- 新增商品 -->
+<!-- <el-dialog :title="addTitle" :visible.sync="addDialogFormVisible">
+			<el-form :model="addForm">
+        <el-form-item label="商品名称" :label-width="formLabelWidth">
+        	<el-input v-model="addForm.goodsName" autocomplete="off"></el-input>
+        </el-form-item>
+				<el-form-item label="商品价格" :label-width="formLabelWidth">
+					<el-input v-model="addForm.goodsPrice" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="商品描述" :label-width="formLabelWidth">
+					<el-input v-model="addForm.goodsDesc" autocomplete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="addDialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="addOrUpd()">确 定</el-button>
+			</div>
+		</el-dialog> -->
 </div>
 </template>
 
@@ -127,7 +147,15 @@ return{
       		},
   // 添加修改页面显示
   dialogFormVisible: false,
-  formLabelWidth: '120px'
+  formLabelWidth: '120px',
+
+/*  //新增商品
+  addTitle:'新增',
+  addForm:{
+
+  },
+  addDialogFormVisible:false, */
+
 }
 },
 // created(){
@@ -240,17 +268,18 @@ this.$router.push('/goods/add');
 },
 // 修改/添加 按钮
       addOrUpd(){
+        //新增
       	if(this.$data.form.flag == '-1'){
           const that = this
           this.$axios({
-              url: 'admin/addUser',
+              url: 'goodsMange/insertGoods',
             	method: 'post',
             	headers: { "Content-Type": "multipart/form-data" },
               data:{
-                 uAcc:this.$data.form.UAcc,
-                 uName:this.$data.form.UName,
-                 idNumber:this.$data.form.idNumber,
-                 address:this.$data.form.address
+                 goodsName:this.$data.form.goodsName,
+                 // goodsImg:this.$data.form.UName,
+                 goodsPrice:this.$data.form.goodsPrice,
+                 goodsDesc:this.$data.form.goodsDesc
               }//传值
             }).then(function(response) {
             	console.log('数据接收');
@@ -296,6 +325,15 @@ this.$router.push('/goods/add');
       		this.dialogFormVisible = false
       	}
       },
+      // 商品添加
+      addGoods(val){
+      	this.$data.title = "添加商品"
+      	this.dialogFormVisible = true
+        this.$data.form.goodsName = ""
+      	this.$data.form.goodsPrice = ""
+      	this.$data.form.goodsDesc = ""
+      	this.$data.form.flag = val
+      },
 tableRowClassName({
 				row,
 				rowIndex
@@ -313,15 +351,7 @@ tableRowClassName({
         console.log("挂载后：数据已挂载到模板中。。。mounted")
         this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
       },
-      // 商品添加
-      addGoods(val){
-      	this.$data.title = "添加商品"
-      	this.dialogFormVisible = true
-        this.$data.form.goodsName = ""
-      	this.$data.form.goodsPrice = ""
-      	this.$data.form.goodsDesc = ""
-      	this.$data.form.flag = val
-      },
+
 
 
     }
