@@ -210,6 +210,7 @@ async handleDelete(index, row) {
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
+          const that = this
 					this.$axios({
 					    url: 'goodsMange/delGoods',
 					  	method: 'post',
@@ -223,7 +224,7 @@ async handleDelete(index, row) {
 					  	if(response.data === 1 ){
 					  	  that.$message({ message: "删除成功", type: "success" });
 					      //刷新
-					      that.getGoodsList();
+					      that.findGoodsByName();
 					  	}else if(response.data === 0){
 					  	  that.$message.error("删除失败");
 					  	}
@@ -238,8 +239,43 @@ async handleDelete(index, row) {
 goAddpage(){
 this.$router.push('/goods/add');
 },
+<<<<<<< HEAD
 // 修改/添加 按钮
       addOrUpd(){
+=======
+<<<<<<< HEAD
+tableRowClassName({
+				row,
+				rowIndex
+			}) {
+				if (rowIndex % 2 == 0) {
+					return 'warning-row';
+				} else {
+					return '';
+				}
+				return '';
+			},
+},
+ mounted(){
+        console.log("挂载后：数据已挂载到模板中。。。mounted")
+        this.getGoodsList("",(this.$data.currentPage-1)*this.$data.pagesize,this.$data.pagesize)
+      },
+      // 商品添加
+      addGoods(val){
+      	this.$data.title = "添加商品"
+      	this.dialogFormVisible = true
+        this.$data.form.goodsName = ""
+      	this.$data.form.goodsPrice = ""
+      	this.$data.form.goodsDesc = ""
+      	this.$data.form.flag = val
+      },
+      // 修改/添加 按钮
+      addPage(){
+=======
+// 修改/添加 按钮
+      addOrUpd(){
+>>>>>>> 3a3bce3174d4269f81957a7ed75089831f74c5b0
+>>>>>>> ecb206382208b9296f29257f7d95fd66e6036990
       	if(this.$data.form.flag == '-1'){
           const that = this
           this.$axios({
